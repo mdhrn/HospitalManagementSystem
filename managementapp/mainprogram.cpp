@@ -33,47 +33,44 @@ int main() {
         return 0;
     }
 
-    switch (choice) {
-        case 1: { // Doctor Access
-            cout << "\n--------------- Doctor Access---------------\n";
-            if (accessControl.VerifyRole("Doctor")) {
-                cout << "Identity verified, welcome Doctor.\n";
-                
-            } else {
-                cout << "Access denied.\n";
-            }
+switch (choice) {
+    case 1: { // Doctor Access
+        cout << "\n--------------- Doctor Access ---------------\n";
 
-            int doctorAnswer;
-            cout << "Do you want to see patient's data?";
-            cout << "[1 for Y/0 for N]:";
-            cin >> doctorAnswer;
-            cout << endl;
-
-            if (doctorAnswer == 1){
-                clinicalRecord.LoadFromFile("patientdata.txt");
-
-            // Call the function to display the file contents
-             clinicalRecord.DisplayPatient_Data();
-
-            break;
-
-
-              
-             
-            }
-            else if (doctorAnswer == 0){
-                cout << "Thankyou, Doctor.";
-            }
-            else{
-                cin.ignore();
-            }
-
-
-            break;
-           
-
-
+        // Verify role
+        if (accessControl.VerifyRole("Doctor")) {
+            cout << "Identity verified, welcome Doctor.\n";
+        } else {
+            cout << "Access denied.\n";
+            break; // Exit the case if access is denied
         }
+
+        // Prompt for access to patient data
+        int doctorAnswer;
+        cout << "Do you want to see patient's data? [1 for Y/0 for N]: ";
+        cin >> doctorAnswer;
+        cout << endl;
+
+        // Handle user response
+        if (doctorAnswer == 1) {
+            // Load and display patient data
+            clinicalRecord.LoadFromFile("patientdata.txt");
+            clinicalRecord.DisplayPatient_Data();
+        } else if (doctorAnswer == 0) {
+            cout << "Thank you, Doctor.\n";
+        } else {
+            cout << "Invalid input. Returning to the menu.\n";
+        }
+
+        break; // Exit the case
+    }
+
+    default: {
+        cout << "Invalid choice! Please try again.\n";
+        break; // Ensure default case ends properly
+    }
+
+
 
         case 2: { // Patient Access
             cout << "\n--------------- Patient Access---------------\n";
@@ -109,10 +106,7 @@ int main() {
             break;
         }
 
-        default: { // Invalid input
-            cout << "Invalid choice, please select a valid option.\n";
-            break;
-        }
+
     }
 
     return 0;
